@@ -2,15 +2,32 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\CategoryRepository;
 use App\Trait\TimestampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[ApiResource]
+#[ORM\HasLifecycleCallbacks]
+#[ApiResource(
+    description: 'Category',
+    operations: [
+        new Delete(),
+        new Get(),
+        new Post(),
+        new Patch()
+    ],
+)]
+#[UniqueEntity(fields: ['code'], message: 'Category with this code already exists')]
 class Category
 {
     use TimestampableEntity;
@@ -21,12 +38,24 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 10, unique: true)]
-    private ?string $code = null;
+    #[Assert\Length(
+        min: 1,
+        minMessage: 'Code must be at least {{ limit }} characters long',
+        max: 10,
+        maxMessage: 'Code must be at most {{ limit }} characters long'
+    )]
+    #[Assert\NotBlank(message: 'Code is required')]
+    private string $code;
 
     /**
      * @var Collection<int, Product>
      */
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'categories')]
+    #[ApiProperty(
+        example: [
+            '/api/products/1'
+        ]
+    )]
     private Collection $product;
 
     public function __construct()
