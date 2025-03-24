@@ -45,6 +45,16 @@
 
 ## Testy:
 
+Aby uruchomić testy jednostkowe za pomocą PHPUnit, wykonaj następujące kroki:
+
 ```bash
 ddev exec composer test:run
 ```
+
+## Mailpit
+
+Mailpit jest dostępny pod adresem: [https://kodano-symfony.ddev.site:8026](https://kodano-symfony.ddev.site:8026)
+
+## Powiadomienia
+
+Po zapisie produktu wywoływane są powiadomienia, które są obsługiwane przez `NotificationManager`. Powiadomienia mogą być wysyłane za pomocą różnych kanałów, takich jak logi (`LogNotification`) oraz e-mail (`EmailNotification`).
