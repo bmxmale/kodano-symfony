@@ -36,3 +36,8 @@ services:
     App\Notification\LogNotification:
         arguments:
             $logger: '@monolog.logger.notification'
+
+    App\EventListener\EntityListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
