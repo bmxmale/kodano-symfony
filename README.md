@@ -41,3 +41,10 @@
     ```
 
 2. Projekt będzie dostępny pod adresem: [https://kodano-symfony.ddev.site/api](https://kodano-symfony.ddev.site/api)
+
+
+## Testy:
+
+```bash
+ddev exec composer test:run
+```
