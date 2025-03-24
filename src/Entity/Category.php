@@ -18,15 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[ApiResource(
-    description: 'Category',
-    operations: [
-        new Delete(),
-        new Get(),
-        new Post(),
-        new Patch()
-    ],
-)]
+#[ApiResource]
 #[UniqueEntity(fields: ['code'], message: 'Category with this code already exists')]
 class Category
 {
